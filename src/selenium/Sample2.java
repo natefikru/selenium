@@ -1,6 +1,5 @@
 package selenium;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class Sample2 {
 
 	public static void main(String[] args) {
 		WebDriver thd= new FirefoxDriver();
-		thd.get("C:\\Users\\a70985\\Desktop\\Jagadeesh\\secondSample.html");
+		thd.get("C:\\Users\\a69753\\Documents\\secondSample.html");
 		WebElement thdbody=	thd.findElement(By.xpath("//tbody[@class= 'u2d_tbody']"));
 		List<WebElement> baseLineTrNumber= thdbody.findElements(By.xpath("//tr[@class='u2d_x_del']"));
 		
