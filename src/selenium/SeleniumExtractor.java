@@ -8,21 +8,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+public class SeleniumExtractor {
 
-public class Sample2 {
-
-	public static void main(String[] args) {
-		WebDriver thd= new FirefoxDriver();
-		thd.get("C:\\Users\\a69753\\Documents\\secondSample.html");
-		WebElement thdbody=	thd.findElement(By.xpath("//tbody[@class= 'u2d_tbody']"));
-		List<WebElement> baseLineTrNumber= thdbody.findElements(By.xpath("//tr[@class='u2d_x_del']"));
-		
-		baseLineFileDifferences(baseLineTrNumber);
-		cycleFileDifferences(thdbody);
-	}
-		
+	List<String> cycleDifferences = new ArrayList<String>();
+	List<String> baseDifferences = new ArrayList<String>();
 	
-	public static void cycleFileDifferences(WebElement thdbody){
+	public SeleniumExtractor(){
+		
+	}
+	
+	
+	public void cycleFileDifferences(WebElement thdbody){
 		
 		  //---------------------------------------------CycleFileDifferences-----------------------------//
 				
@@ -45,19 +41,21 @@ public class Sample2 {
 						cycleSpanText.add(cycleSpanDifference);
 						//System.out.println(cycleSpanDifference);
 					}
-					StringBuilder cycleStrng= new StringBuilder();
+					StringBuilder cycleString= new StringBuilder();
 					for (String cs:cycleSpanText)
 					{
-						cycleStrng.append(cs);
+						cycleString.append(cs);
 						System.out.print(cs);
 					}
+					String cString = cycleString.toString();
+					this.cycleDifferences.add(cString);
 				}
 				System.out.println("");
 			}
 
 		}
 	
-	public static void baseLineFileDifferences(List<WebElement> baseLineTrNumber){
+	public void baseLineFileDifferences(List<WebElement> baseLineTrNumber){
 		//----------------------------------BaseLineFileDifferences----------------------------------//
     	 
 		for (WebElement eachBaseTrNumber:baseLineTrNumber)
@@ -71,11 +69,8 @@ public class Sample2 {
 				
 				for (WebElement span:spanElements)
 				{
-					
 					String difference= span.getText();
 					spanText.add(difference);
-					
-								
 				}
 				
 				//int var=spanText.size();
@@ -91,9 +86,4 @@ public class Sample2 {
 	    }
 			
 	}
-	
 }
-		
-	
-
-
