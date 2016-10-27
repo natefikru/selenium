@@ -12,13 +12,22 @@ public class SeleniumExtractor {
 
 	List<String> cycleDifferences = new ArrayList<String>();
 	List<String> baseDifferences = new ArrayList<String>();
+	WebElement thdbody;
+	List<WebElement> baseLineTrNumber;
 	
 	public SeleniumExtractor(){
-		
+		initializeDriver();
+	}
+	
+	public void initializeDriver(){
+		WebDriver thd= new FirefoxDriver();
+		thd.get("C:\\Users\\a69753\\Documents\\secondSample.html");
+		this.thdbody =	thd.findElement(By.xpath("//tbody[@class= 'u2d_tbody']"));
+		this.baseLineTrNumber= thdbody.findElements(By.xpath("//tr[@class='u2d_x_del']"));
 	}
 	
 	
-	public void cycleFileDifferences(WebElement thdbody){
+	public void cycleFileDifferences(){
 		
 		  //---------------------------------------------CycleFileDifferences-----------------------------//
 				
@@ -55,7 +64,7 @@ public class SeleniumExtractor {
 
 		}
 	
-	public void baseLineFileDifferences(List<WebElement> baseLineTrNumber){
+	public void baseLineFileDifferences(){
 		//----------------------------------BaseLineFileDifferences----------------------------------//
     	 
 		for (WebElement eachBaseTrNumber:baseLineTrNumber)
@@ -80,10 +89,21 @@ public class SeleniumExtractor {
 					strng.append(s);
 					System.out.print(s);
 				}
-				
+				String bString = strng.toString();
+				this.baseDifferences.add(bString);
 			}
 			System.out.println("");
 	    }
 			
 	}
+	
+	public void printStringList(){
+		int num = 0;
+		for(String string: cycleDifferences){
+			//System.out.print(num);
+			System.out.print(string + "");
+			num++;
+		}
+	}
+
 }

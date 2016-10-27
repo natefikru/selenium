@@ -20,26 +20,64 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ApachePOI {
 	
 	static HSSFSheet sheet;
-	static HSSFWorkbook wb;
+	static HSSFWorkbook wb = new HSSFWorkbook();
+	
+	public ApachePOI(){
+		
+	}
 	
 	public static void main( String args[] ) throws IOException{
-		FileInputStream fis = new FileInputStream(new File("C:\\Users\\a69753\\Documents\\comparisonTest.xls"));
-		wb = new HSSFWorkbook(fis);
+		//FileInputStream fis = new FileInputStream(new File("C:\\Users\\a69753\\Documents\\quoteIssueTemplate.xls"));
+		sheet = wb.createSheet("testSheet");
+		//wb = new HSSFWorkbook(fis);
 		sheet =  wb.getSheetAt(0);
 		
 		writeSheet();
-		printSheet();
+		//printSheet();
 		save();
 
 	}
 	
 	public static void writeSheet(){
-		Row row = sheet.createRow(1);
-//		Cell cell = row.createCell(2);
-//	    cell.setCellValue("dust");.
+		SeleniumExtractor se = new SeleniumExtractor();
+		se.cycleFileDifferences();
+		se.baseLineFileDifferences();
+
 		
-		row.createCell(0).setCellValue("fast");
-		row.createCell(1).setCellValue("dumb");
+		Row row = sheet.createRow(0);
+		Cell cell = row.createCell(0);
+		cell.setCellValue("baseLine Differences");
+		cell = row.createCell(1);
+		cell.setCellValue("cycle Differences");
+		
+//		for (int i = 1; i < 11; i++) {
+//			row = sheet.createRow(i);
+//		}
+
+		
+
+		int rowNum = 2;
+		int colNum = 1;
+		for (String string: se.cycleDifferences) {
+			if(!string.isEmpty()){
+				cell = sheet.getRow(rowNum).getCell(colNum);
+				cell.setCellValue(string);
+				System.out.println(string);
+				rowNum++;
+			}
+		}
+		
+		rowNum = 2;
+		colNum = 0;
+		for (String string: se.baseDifferences) {
+			if(!string.isEmpty()){
+				row = sheet.getRow(rowNum);
+				cell = row.getCell(colNum);
+				cell.setCellValue(string);
+				System.out.println(string);
+				rowNum++;
+			}
+		}
 	}
 	
 	
@@ -67,9 +105,12 @@ public class ApachePOI {
 	}
 	
 	public static void save() throws IOException{
-		FileOutputStream fileOut = new FileOutputStream (new File("C:\\Users\\a69753\\Documents\\comparisonTestOutput.xls"));
-		wb.write(fileOut);
-		fileOut.close();
+//		FileOutputStream fileOut = new FileOutputStream (new File("C:\\Users\\a69753\\Documents\\quoteIssueTemplateCopy.xls"));
+//		wb.write(fileOut);
+//		fileOut.close();
+		FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\a69753\\Documents\\quoteIssueTest.xls"));
+		wb.write(fos);
+		fos.close();
 	}
 
 
