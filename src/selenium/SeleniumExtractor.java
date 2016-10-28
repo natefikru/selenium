@@ -70,28 +70,28 @@ public class SeleniumExtractor {
 		//----------------------------------BaseLineFileDifferences----------------------------------//
 		
 		System.out.println("Differences from Base file");
-    	 
+    	
+		//loops through each cycle block
 		for (WebElement eachBaseTrNumber:baseLineTrNumber)
 	    {
-			String lineNumber = eachBaseTrNumber.findElement(By.xpath("//td[@class='u2d_ln u2d_x_del_ln']")).getText();
-			System.out.println(lineNumber);
+			
+			WebElement lineNumber = eachBaseTrNumber.findElement(By.xpath("//td[@class='u2d_ln u2d_x_del_ln']"));
+			System.out.println(lineNumber.getText());
 			System.out.println("red");
 			System.out.println(eachBaseTrNumber.getText());
 			WebElement tdTagsinBaseTr= eachBaseTrNumber.findElement(By.xpath("//td[@class='u2d_code']"));
 
 			List<WebElement> spanElements = tdTagsinBaseTr.findElements(By.tagName("span"));
 			List<String> spanText= new ArrayList<String>();
-			
 			StringBuilder spanString = new StringBuilder();
 			
+			//grabs span elements and appends them to a single string.
 			for (WebElement span:spanElements)
 			{
 				String difference= span.getText();
 				spanString.append(difference);
 			}
-			
 			String bString = spanString.toString();
-			
 			System.out.println(bString);
 			this.baseDifferences.add(bString);
 			System.out.println("*************");
