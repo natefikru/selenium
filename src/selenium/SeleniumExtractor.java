@@ -1,6 +1,7 @@
 package selenium;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -16,7 +17,7 @@ public class SeleniumExtractor {
 	List<WebElement> baseLineTrNumber;
 	List <WebElement> cycleLineTrNumber;
 	
-	DifferenceObject differenceObject = new DifferenceObject();
+	DifferenceObject myDifferenceObject = new DifferenceObject();
 	
 	public SeleniumExtractor(){
 		initializeDriver();
@@ -31,39 +32,90 @@ public class SeleniumExtractor {
 	}
 	
 	
+//	public void cycleFileDifferences(){
+//		
+//		  //---------------------------------------------CycleFileDifferences-----------------------------//
+//				
+//		System.out.println("Differences from Cycle file");
+//		//System.out.println(cycleLineTrNumber.size());
+//			
+//		for (WebElement eachCycleTrNumber:cycleLineTrNumber )
+//		{
+//			List<WebElement> tdTagsinCycleTr=eachCycleTrNumber.findElements(By.tagName("td"));
+//			
+//			for(WebElement tdTaginCycleTr: tdTagsinCycleTr)
+//			{
+//				List<WebElement> cycleSpans=tdTaginCycleTr.findElements(By.tagName("span"));
+//				List<String>cycleSpanText= new ArrayList<String>();
+//				for (WebElement cycleSpan: cycleSpans)
+//				{
+//					String cycleSpanDifference= cycleSpan.getText();
+//					cycleSpanText.add(cycleSpanDifference);
+//					//System.out.println(cycleSpanDifference);
+//				}
+//				StringBuilder cycleString= new StringBuilder();
+//				for (String cs:cycleSpanText)
+//				{
+//					cycleString.append(cs);
+////					System.out.print(cs);
+//				}
+//				String cString = cycleString.toString();
+//				this.cycleDifferences.add(cString);
+//			}
+//			System.out.println("");
+//		}
+//
+//	}
+	
 	public void cycleFileDifferences(){
+		//----------------------------------CycleLineFileDifferences----------------------------------//
 		
-		  //---------------------------------------------CycleFileDifferences-----------------------------//
-				
 		System.out.println("Differences from Cycle file");
-		//System.out.println(cycleLineTrNumber.size());
+    	
+		//loops through each Cycle block
+		for (WebElement eachCycleTrNumber:cycleLineTrNumber)
+	    {
+			//create hashMap object for line difference
+			HashMap<String, String> cycleItemMap = new HashMap<String, String>();
 			
-		for (WebElement eachCycleTrNumber:cycleLineTrNumber )
-		{
-			List<WebElement> tdTagsinCycleTr=eachCycleTrNumber.findElements(By.tagName("td"));
+			//extract and save entire code line
+			System.out.println(eachCycleTrNumber.getText());
+			cycleItemMap.put("DESCRIPTION", eachCycleTrNumber.getText());
 			
-			for(WebElement tdTaginCycleTr: tdTagsinCycleTr)
-			{
-				List<WebElement> cycleSpans=tdTaginCycleTr.findElements(By.tagName("span"));
-				List<String>cycleSpanText= new ArrayList<String>();
-				for (WebElement cycleSpan: cycleSpans)
-				{
-					String cycleSpanDifference= cycleSpan.getText();
-					cycleSpanText.add(cycleSpanDifference);
-					//System.out.println(cycleSpanDifference);
-				}
-				StringBuilder cycleString= new StringBuilder();
-				for (String cs:cycleSpanText)
-				{
-					cycleString.append(cs);
-//					System.out.print(cs);
-				}
-				String cString = cycleString.toString();
-				this.cycleDifferences.add(cString);
-			}
-			System.out.println("");
-		}
+			//extract and save color of text
+			System.out.println("+");
+			cycleItemMap.put("STATUS", "+");
+			
+			//extract and save color code line number
+			System.out.println(eachCycleTrNumber.getText().substring(0, 3));
+			cycleItemMap.put("LINE_NUMBER", eachCycleTrNumber.getText().substring(0, 3));
+			
+			//extract and save product line item
+			System.out.println(eachCycleTrNumber.getText().substring(4, 11));
+			cycleItemMap.put("LINE_ITEM_CODE", eachCycleTrNumber.getText().substring(4, 11));
+			
+//		****TODO Fix span line item function****
+			WebElement tdTagInCycleTr = eachCycleTrNumber.findElement(By.xpath("//td[@class='u2d_code']"));
+			System.out.println(tdTagInCycleTr.getText());
 
+			List<WebElement> spanElements = tdTagInCycleTr.findElements(By.tagName("span"));
+			StringBuilder spanString = new StringBuilder();
+			
+			//grabs span elements and appends them to a single string.
+			for (WebElement span:spanElements)
+			{
+				System.out.print(span.getText() + "******");
+				String difference= span.getText();
+				spanString.append(difference);
+			}
+			String cString = spanString.toString();
+			System.out.println(cString);
+			this.cycleDifferences.add(cString);
+			System.out.println("*************");
+			
+			myDifferenceObject.cycleList.add(cycleItemMap);
+			
+	    }
 	}
 	
 	public void baseLineFileDifferences(){
@@ -71,23 +123,39 @@ public class SeleniumExtractor {
 		
 		System.out.println("Differences from Base file");
     	
-		//loops through each cycle block
+		//loops through each base block
 		for (WebElement eachBaseTrNumber:baseLineTrNumber)
 	    {
+			//create hashMap object for line difference
+			HashMap<String, String> baseItemMap = new HashMap<String, String>();
 			
-			WebElement lineNumber = eachBaseTrNumber.findElement(By.xpath("//td[@class='u2d_ln u2d_x_del_ln']"));
-			System.out.println(lineNumber.getText());
-			System.out.println("red");
+			//extract and save entire code line
 			System.out.println(eachBaseTrNumber.getText());
-			WebElement tdTagsinBaseTr= eachBaseTrNumber.findElement(By.xpath("//td[@class='u2d_code']"));
+			baseItemMap.put("DESCRIPTION", eachBaseTrNumber.getText());
+			
+			//extract and save color of text
+			System.out.println("-");
+			baseItemMap.put("STATUS", "-");
+			
+			//extract and save color code line number
+			System.out.println(eachBaseTrNumber.getText().substring(0, 3));
+			baseItemMap.put("LINE_NUMBER", eachBaseTrNumber.getText().substring(0, 3));
+			
+			//extract and save product line item
+			System.out.println(eachBaseTrNumber.getText().substring(4, 11));
+			baseItemMap.put("LINE_ITEM_CODE", eachBaseTrNumber.getText().substring(4, 11));
+			
+//		****TODO Fix span line item function****
+			WebElement tdTagInBaseTr = eachBaseTrNumber.findElement(By.xpath("//td[@class='u2d_code']"));
+			System.out.println(tdTagInBaseTr.getText());
 
-			List<WebElement> spanElements = tdTagsinBaseTr.findElements(By.tagName("span"));
-			List<String> spanText= new ArrayList<String>();
+			List<WebElement> spanElements = tdTagInBaseTr.findElements(By.tagName("span"));
 			StringBuilder spanString = new StringBuilder();
 			
 			//grabs span elements and appends them to a single string.
 			for (WebElement span:spanElements)
 			{
+				System.out.print(span.getText() + "******");
 				String difference= span.getText();
 				spanString.append(difference);
 			}
@@ -96,10 +164,11 @@ public class SeleniumExtractor {
 			this.baseDifferences.add(bString);
 			System.out.println("*************");
 			
+			myDifferenceObject.baseList.add(baseItemMap);
 			
 	    }
-			
 	}
+		
 	
 	public void printStringList(){
 		int num = 0;

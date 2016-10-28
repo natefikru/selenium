@@ -5,8 +5,8 @@ import java.util.*;
 public class DifferenceObject {
 	
 	
-	HashMap<String, String> baseItems = new HashMap<String, String>();
-	HashMap<String, String> cycleItems = new HashMap();
+//	HashMap<String, String> baseItems = new HashMap<String, String>();
+//	HashMap<String, String> cycleItems = new HashMap();
 	
 	ArrayList baseList = new ArrayList();
 	ArrayList cycleList = new ArrayList();
