@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -60,7 +61,15 @@ public class ApachePOI {
 		int colNum = 1;
 		for (String string: se.cycleDifferences) {
 			if(!string.isEmpty()){
-				cell = sheet.getRow(rowNum).getCell(colNum);
+				row = sheet.getRow(rowNum);
+				if(row == null){
+					row = sheet.createRow(rowNum);
+				}
+				
+				cell = row.getCell(colNum);
+				if(cell == null){
+					cell = row.createCell(colNum);
+				}
 				cell.setCellValue(string);
 				System.out.println(string);
 				rowNum++;
@@ -72,7 +81,14 @@ public class ApachePOI {
 		for (String string: se.baseDifferences) {
 			if(!string.isEmpty()){
 				row = sheet.getRow(rowNum);
+				if(row == null){
+					row = sheet.createRow(rowNum);
+				}
+				
 				cell = row.getCell(colNum);
+				if(cell == null){
+					cell = row.createCell(colNum);
+				}
 				cell.setCellValue(string);
 				System.out.println(string);
 				rowNum++;
